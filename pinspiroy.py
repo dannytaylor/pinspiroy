@@ -1,5 +1,6 @@
 # TODO:
 # add keybindings to gestures and buttons
+# binding for stylus buttons
 
 from evdev import UInput, ecodes, events, AbsInfo, util
 import sys
@@ -89,12 +90,24 @@ def id_pen(data):
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_PRESSURE, z)
 
-	if data[1] != 129: # pen registered, but not touching pad
+	if data[1] == 128: # pen registered, but not touching pad
 		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
-		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOOL_PEN, 1)
-	else: # == 129; pen touching pad
+	elif data[1] == 130: # stylus button 1
+		if z>10:
+			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
+		else:
+			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
+		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS, 1)
+	elif data[1] == 132: # stylus button 2
+		if z>10:
+			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
+		else:
+			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
+		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS2, 1)
+	elif data[1] == 129: # == 129; pen touching pad
 		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
-		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOOL_PEN, 1)
+
+	vpen.write(ecodes.EV_KEY, ecodes.BTN_TOOL_PEN, 1)
 
 	vpen.syn() #sync all inputs together
 
@@ -137,8 +150,11 @@ gst_switch = {
  	22:gst_id.gst_zoomin, #2 fingers expand
  	23:gst_id.gst_zoomout, #2 fingers pinch
 
- 	1 :gst_id.gst_tap, #single finger tap
+ 	1 :gst_id.gst_tap1, #single finger tap
+ 	17:gst_id.gst_tap2, #2 finger tap
+ 	33:gst_id.gst_tap3, #3 finger tap
  	0 :gst_id.gst_end, #any gesture release
+
 }
 
 
