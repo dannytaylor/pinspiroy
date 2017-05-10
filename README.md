@@ -22,7 +22,7 @@ Button and gesture binding are found in btn_id.py and gst_id.py. If you're addin
 This program requires the uinput module to be loaded. Either manually (_sudo modprobe uinput_)
 or automatically; [see the Arch wiki](https://wiki.archlinux.org/index.php/Kernel_modules)
 
-This program requires access to read usb data and create and write to the virtual devices. Either run as superuser or add the appropriate permissions where needed.
+**Insufficient permissions:** This program requires access to read usb data and create and write to the virtual devices. Either run as superuser or add the appropriate permissions where needed.
 
-**Pen not moving on contact**: check that you don't have a libinput driver catchall rule for tablets in your xorg.conf.d/. I can't seem to set the resolution of the pen surface and libinput doesn't like that. You may need a evdev driver catchall rule for tablets.
+**Pen not moving on contact:** check that you don't have a libinput driver catchall rule for tablets in your xorg.conf.d/. I can't seem to set the resolution of the pen surface and libinput doesn't like that. You may need a evdev driver catchall rule for tablets.
 
