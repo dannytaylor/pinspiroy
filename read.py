@@ -13,7 +13,8 @@ import time
 dev = usb.core.find(idVendor=0x256c, idProduct=0x006e)
 # first endpoint
 interface = 0
-endpoint = dev[0][(0,0)][0]
+endpoint1 = dev[0][(0,0)][0]
+endpoint2 = dev[0][(1,0)][0]
 # if the OS kernel already claimed the device, which is most likely true
 # thanks to http://stackoverflow.com/questions/8218683/pyusb-cannot-set-configuration
 if dev.is_kernel_driver_active(interface) is True:
@@ -31,8 +32,15 @@ if dev.is_kernel_driver_active(interface) is True:
 
 while True:
 	try:
-		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
-		print (data)
+		data1 = dev.read(endpoint1.bEndpointAddress,endpoint1.wMaxPacketSize)
+		print (data1)
+	except usb.core.USBError as e:
+		data = None
+		if e.args == ('Operation timed out',):
+				continue
+	try:
+		data2 = dev.read(endpoint2.bEndpointAddress,endpoint2.wMaxPacketSize)
+		print (data2)
 	except usb.core.USBError as e:
 		data = None
 		if e.args == ('Operation timed out',):

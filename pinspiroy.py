@@ -1,7 +1,3 @@
-# TODO:
-# binding for stylus buttons
-# DOCUMENTATION
-
 from evdev import UInput, ecodes, events, AbsInfo, util
 import sys
 import usb.core
@@ -123,17 +119,20 @@ def id_pen(data):
 	vpen.syn() #sync all inputs together
 
 def gst_tap1(whatever): #single finger tap
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 1)
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 0)
-	vtrack.syn()
+	if config.TRACKPAD_ENABLED:
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 1)
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 0)
+		vtrack.syn()
 def gst_tap2(whatever): #single finger tap
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 1)
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 0)
-	vtrack.syn()
+	if config.TRACKPAD_ENABLED:
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 1)
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 0)
+		vtrack.syn()
 def gst_tap3(whatever): #single finger tap
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 1)
-	vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 0)
-	vtrack.syn()
+	if config.TRACKPAD_ENABLED:
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 1)
+		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 0)
+		vtrack.syn()
 
 # switch to handle input types
 input_switch = {
@@ -231,7 +230,7 @@ while True:
 	try:
 		# data received as array of [0,255] ints
 		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
-		print (data)
+		#print (data)
 		input_switch[data[1]](data)
 	except usb.core.USBError as e:
 		data = None
