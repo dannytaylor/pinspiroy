@@ -34,3 +34,4 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed
 - Add ability to be able to use tablet in not fully-functioning mode (with impaired resolution and no gesture support)
 - Get stylus buttons working.
+- Fix issue of multiple buttons at once not all registering
