@@ -16,7 +16,7 @@ You may need to first connect the device to a Windows VM to flip the tablet into
 
 Configuration values are found in config.py. Currently it's just bools for rotating axes for left-handed use and disabling the trackpad. The pad buttons are setup to change positions when rotated also.
 
-Button and gesture bindings are found in btn\_id.py and gst\_id.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
+Button and gesture bindings are found in bindings.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
 
 ## Troubleshooting
 This program requires the uinput module to be loaded. Either manually (_sudo modprobe uinput_)
@@ -26,7 +26,7 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 
 **Pen not moving on contact, buttons and trackpad working:** This seems to be a problem with libinput requiring a pen resolution; changing the resolution with python-evdev doesn't seem to work. Check that you don't have a libinput driver catchall rule for tablets in your xorg.conf.d/. You may need a evdev driver catchall rule for tablets.
 
-**Key error: NUM:** Run the read.py file to see the array data the tablet is sending. The first array value should be 8. If it isn't (probably will be 10) the tablet isn't in full tablet mode. See usage section.
+**Key error: NUM:** Run the debug.py file to see the array data the tablet is sending. The first array value should be 8. If it isn't (probably will be 10) the tablet isn't in full tablet mode. See usage section.
 
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 

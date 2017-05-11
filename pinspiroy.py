@@ -4,9 +4,8 @@ import usb.core
 import usb.util
 import time
 
-import gst_id
-import btn_id
-import config
+import bindings
+from config import LEFT_HANDED as LEFT_HANDED,TRACKPAD_ENABLED as TRACKPAD_ENABLED
 
 #tablet config values
 PEN_MAX_X = 50800
@@ -56,22 +55,22 @@ time.sleep(0.1) # needed due to some xserver feature
 
 # input specific functions
 def id_btn(data):
-	if config.LEFT_HANDED:
+	if LEFT_HANDED:
 		btn_switch_LH[data[4]](vbtn)
 	else:
 		btn_switch[data[4]](vbtn)
 	
 def id_gst(data):
-	if config.LEFT_HANDED:
+	if LEFT_HANDED:
 		gst_switch_LH[data[4]](vbtn)
 	else:
 		gst_switch[data[4]](vbtn)
 
 def id_trk(data):
-	if config.TRACKPAD_ENABLED:
+	if TRACKPAD_ENABLED:
 		x = data[3]*255 + data[2]
 		y = data[5]*255 + data[4]
-		if config.LEFT_HANDED:	
+		if LEFT_HANDED:	
 			x = PEN_MAX_X-x
 			y = PEN_MAX_Y-y
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_X, x)
@@ -85,7 +84,7 @@ def id_pen(data):
 	z = data[7]*255 + data[6]
 
 	#rotate coordinates if left handed
-	if config.LEFT_HANDED:
+	if LEFT_HANDED:
 		x = PEN_MAX_X-x
 		y = PEN_MAX_Y-y
 
@@ -119,17 +118,17 @@ def id_pen(data):
 	vpen.syn() #sync all inputs together
 
 def gst_tap1(whatever): #single finger tap
-	if config.TRACKPAD_ENABLED:
+	if TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 0)
 		vtrack.syn()
 def gst_tap2(whatever): #single finger tap
-	if config.TRACKPAD_ENABLED:
+	if TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 0)
 		vtrack.syn()
 def gst_tap3(whatever): #single finger tap
-	if config.TRACKPAD_ENABLED:
+	if TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 0)
 		vtrack.syn()
@@ -147,68 +146,68 @@ input_switch = {
 
 # switch to handle button types
 btn_switch = {
-	1 :btn_id.btn1, #clockwise from top left
-	2 :btn_id.btn2, 
-	4 :btn_id.btn3, 
-	8 :btn_id.btn4, 
-	16:btn_id.btn5, 
-	32:btn_id.btn6, 
+	1 :bindings.btn1, #clockwise from top left
+	2 :bindings.btn2, 
+	4 :bindings.btn3, 
+	8 :bindings.btn4, 
+	16:bindings.btn5, 
+	32:bindings.btn6, 
 
-	0 :btn_id.btn0, #button released
+	0 :bindings.btn0, #button released
 }
 
 # reverse button order for LH setting
 btn_switch_LH = {
-	32:btn_id.btn1, #clockwise from top left
-	16:btn_id.btn2, 
-	8 :btn_id.btn3, 
-	4 :btn_id.btn4, 
-	2 :btn_id.btn5, 
-	1 :btn_id.btn6, 
+	32:bindings.btn1, #clockwise from top left
+	16:bindings.btn2, 
+	8 :bindings.btn3, 
+	4 :bindings.btn4, 
+	2 :bindings.btn5, 
+	1 :bindings.btn6, 
 
-	0 :btn_id.btn0, #button released
+	0 :bindings.btn0, #button released
 }
 
 # switch to handle gesture types
 gst_switch = {
-	18:gst_id.gst_left, #2 fingers
-	19:gst_id.gst_right, 
-	20:gst_id.gst_up,
- 	21:gst_id.gst_down, 	
+	18:bindings.gst_left, #2 fingers
+	19:bindings.gst_right, 
+	20:bindings.gst_up,
+ 	21:bindings.gst_down, 	
 
- 	36:gst_id.gst_left3, #3 fingers
-	37:gst_id.gst_right3, 
-	34:gst_id.gst_up3,
- 	35:gst_id.gst_down3, 
+ 	36:bindings.gst_left3, #3 fingers
+	37:bindings.gst_right3, 
+	34:bindings.gst_up3,
+ 	35:bindings.gst_down3, 
 
- 	22:gst_id.gst_zoomin, #2 fingers expand
- 	23:gst_id.gst_zoomout, #2 fingers pinch
+ 	22:bindings.gst_zoomin, #2 fingers expand
+ 	23:bindings.gst_zoomout, #2 fingers pinch
 
  	1 :gst_tap1, #single finger tap
  	17:gst_tap2, #2 finger tap
  	33:gst_tap3, #3 finger tap
- 	0 :gst_id.gst_end, #any gesture release
+ 	0 :bindings.gst_end, #any gesture release
 
 }
 #reverse gesture axes for LH setting
 gst_switch_LH = {
-	19:gst_id.gst_left, #2 fingers
-	18:gst_id.gst_right, 
-	21:gst_id.gst_up,
- 	20:gst_id.gst_down, 	
+	19:bindings.gst_left, #2 fingers
+	18:bindings.gst_right, 
+	21:bindings.gst_up,
+ 	20:bindings.gst_down, 	
 
- 	37:gst_id.gst_left3, #3 fingers
-	36:gst_id.gst_right3, 
-	35:gst_id.gst_up3,
- 	34:gst_id.gst_down3, 
+ 	37:bindings.gst_left3, #3 fingers
+	36:bindings.gst_right3, 
+	35:bindings.gst_up3,
+ 	34:bindings.gst_down3, 
 
- 	22:gst_id.gst_zoomin, #2 fingers expand
- 	23:gst_id.gst_zoomout, #2 fingers pinch
+ 	22:bindings.gst_zoomin, #2 fingers expand
+ 	23:bindings.gst_zoomout, #2 fingers pinch
 
  	1 :gst_tap1, #single finger tap
  	17:gst_tap2, #2 finger tap
  	33:gst_tap3, #3 finger tap
- 	0 :gst_id.gst_end, #any gesture release
+ 	0 :bindings.gst_end, #any gesture release
 
 }
 
@@ -239,4 +238,3 @@ while True:
 				continue
 usb.util.release_interface(dev, interface)
 dev.attach_kernel_driver(interface)
-
