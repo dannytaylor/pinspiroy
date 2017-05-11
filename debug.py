@@ -53,13 +53,13 @@ while True:
 		data = None
 		if e.args == ('Operation timed out',):
 				continue
-	try:
-		data2 = dev.read(endpoint2.bEndpointAddress,endpoint2.wMaxPacketSize)
-		print (data2)
-	except usb.core.USBError as e:
-		data = None
-		if e.args == ('Operation timed out',):
-				continue
+	# try:
+	# 	data2 = dev.read(endpoint2.bEndpointAddress,endpoint2.wMaxPacketSize)
+	# 	print (data2)
+	# except usb.core.USBError as e:
+	# 	data = None
+	# 	if e.args == ('Operation timed out',):
+	# 			continue
 # release the device
 usb.util.release_interface(dev, interface)
 # reattach the device to the OS kernel

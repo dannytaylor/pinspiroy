@@ -11,7 +11,7 @@ from config import LEFT_HANDED as LEFT_HANDED,TRACKPAD_ENABLED as TRACKPAD_ENABL
 PEN_MAX_X = 50800
 PEN_MAX_Y = 31750 
 PEN_MAX_Z = 2048 	#pressure
-
+msc = 1
 #specify capabilities for a virtual device
 #one for each device:
 #pen/pad, trackpad, and buttons
@@ -89,8 +89,7 @@ def id_pen(data):
 		y = PEN_MAX_Y-y
 
 	#print(str(x) + ', ' + str(y) + '; ' + str(z))
-	
-	vpen.write(ecodes.EV_MSC,ecodes.MSC_SCAN,50000) # this seems to be necessary, value is arbitrary
+	#vpen.write(ecodes.EV_MSC,ecodes.MSC_SCAN,msc) # this seems to be necessary, value is arbitrary
 
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_X, x)
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
@@ -225,12 +224,13 @@ interface = 1
 if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
-
+##msc = 1
 while True:
 	try:
+		##msc+=1
 		# data received as array of [0,255] ints
 		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
-		#print (data)
+		print (data)
 		input_switch[data[1]](data)
 	except usb.core.USBError as e:
 		data = None
