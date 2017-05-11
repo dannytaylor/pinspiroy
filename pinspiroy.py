@@ -226,6 +226,7 @@ interface = 1
 if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
+
 while True:
 	try:
 		# data received as array of [0,255] ints

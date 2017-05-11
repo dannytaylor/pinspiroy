@@ -9,14 +9,18 @@ import usb.core
 import usb.util
 import time
 
+
 #decimal vendor and product values
 dev = usb.core.find(idVendor=0x256c, idProduct=0x006e)
+
+
 # first endpoint
-interface = 0
 endpoint1 = dev[0][(0,0)][0]
 endpoint2 = dev[0][(1,0)][0]
+
 # if the OS kernel already claimed the device, which is most likely true
 # thanks to http://stackoverflow.com/questions/8218683/pyusb-cannot-set-configuration
+interface = 0
 if dev.is_kernel_driver_active(interface) is True:
 	# tell the kernel to detach
 	dev.detach_kernel_driver(interface)
@@ -29,6 +33,17 @@ if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	# claim the device
 	usb.util.claim_interface(dev, interface)
+
+# interface = 2
+# if dev.is_kernel_driver_active(interface) is True:
+# 	# tell the kernel to detach
+# 	dev.detach_kernel_driver(interface)
+# 	# claim the device
+# 	usb.util.claim_interface(dev, interface)
+#bmRequestType, bmRequest, wValue and wIndex
+# dev.ctrl_transfer(0x21,0x0a,0x0000,0x01,None)
+# dev.write(0x82,None)
+# dev.write(0x81,None)
 
 while True:
 	try:
