@@ -11,27 +11,7 @@ def btn2(vbtn): #eraser
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_E, 0)
 	vbtn.syn()
 
-def btn3(vbtn): #pen size
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
-	vbtn.syn()
-
-def btn4(vbtn): #undo
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 0)
-	vbtn.syn()
-
-def btn5(vbtn): #redo
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 0)
-	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 0)
-	vbtn.syn()
-
-def btn6(vbtn):
+def btn3(vbtn):
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_SPACE, 1)
 	vbtn.syn() 
 
@@ -43,6 +23,27 @@ def btn6(vbtn):
 	# vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
 	# vbtn.write(ecodes.EV_KEY, ecodes.KEY_S, 0)
 	# vbtn.syn()
+
+def btn4(vbtn): #pen size
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
+	vbtn.syn()
+
+def btn5(vbtn): #redo
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 0)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 0)
+	vbtn.syn()
+
+def btn6(vbtn): #undo
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
+	vbtn.write(ecodes.EV_KEY, ecodes.KEY_Z, 0)
+	vbtn.syn()
+
 
 def btn0(vbtn): 
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
@@ -82,17 +83,9 @@ def gst_right3(vbtn): #rotate right
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_RIGHTBRACE, 0)
 	vbtn.syn()
 
-def gst_up3(vbtn):
-	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 0)
-	vbtn.syn()
 
-def gst_down3(vbtn): 
-	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 1)
-	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 0)
-	vbtn.syn()
 
-def gst_zoomin(vbtn): #2 fingers expand
+def gst_up3(vbtn): #2 fingers expand
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_EQUAL, 1)
@@ -100,15 +93,23 @@ def gst_zoomin(vbtn): #2 fingers expand
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_EQUAL, 0)
 	vbtn.syn()
-	time.sleep(0.4) #without sleep delay it's kind of hard to control
 
-def gst_zoomout(vbtn): #2 fingers pinch
+def gst_down3(vbtn): #2 fingers pinch
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_MINUS, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_MINUS, 0)
 	vbtn.syn()
-	time.sleep(0.4)
+
+def gst_zoomin(vbtn):
+	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 0)
+	vbtn.syn()
+
+def gst_zoomout(vbtn): 
+	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 1)
+	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 0)
+	vbtn.syn()
 
 def gst_end(vbtn): #any gesture release
 	pass
