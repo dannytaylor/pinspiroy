@@ -22,7 +22,7 @@ Button and gesture bindings are found in bindings.py. Note: If you're adding new
 
 I have the button and gesture bindings set up with the following for defaults
 
-Buttons clockwise from top right of trackpad:
+Buttons clockwise from top left of trackpad:
 ```
 button1: left control (hold)	# eyedropper
 button2: E			# eraser tool
@@ -38,13 +38,13 @@ Two fingers:
 up/down/left/right: arrow keys
 
 Three fingers:
-up/down: ctrl + '+' / '-' # zoom in/out 		
-left/right: ctrl + '[' / ']' # rotate cc/c
+up/down:    ctrl + +/-  # zoom in/out 		
+left/right: ctrl + [/]  # rotate cc/c
 
 Taps:
-one finger: mouse left
-two fingers: mouse right
-three fingers: mouse middle
+one finger:     mouse left
+two fingers:    mouse right
+three fingers:  mouse middle
 
 Pinch in/out: unbound
 
