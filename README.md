@@ -18,6 +18,39 @@ Configuration values are found in config.py. Currently it's just bools for rotat
 
 Button and gesture bindings are found in bindings.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
 
+## Configuring
+
+I have the button and gesture bindings set up with the following for defaults
+
+Buttons clockwise from top right of trackpad:
+```
+button1: left control (hold) 	# eyedropper
+button2: E 						# eraser tool
+button3: spacebar (hold)		# pan tool
+button4: shift (hold)			# brush resizer
+button5: ctrl + shift + z		# redo
+button6: ctrl + z				# undo
+```
+
+Trackpad gestures:
+```
+Two fingers:
+up/down/left/right: arrow keys
+
+Three fingers:
+up/down: 		ctrl + +/-		# zoom in/out 		
+left/right: 	ctrl + [/]		# rotate cc/c
+
+Taps:
+one finger:		mouse left
+two fingers:	mouse right
+three fingers:	mouse middle
+
+pinch in/out: 	unbound
+
+```
+
+
 ## Troubleshooting
 This program requires the uinput module to be loaded. Either manually (_sudo modprobe uinput_)
 or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.php/Kernel_modules).
@@ -32,6 +65,5 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 
 ## TODO:
 - Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed
-- Add ability to be able to use tablet in not fully-functioning mode (with impaired resolution and no gesture support)
-- Get stylus buttons working.
-- Fix issue of multiple buttons at once not all registering
+- Add support for tablet in impaired mode
+- Get stylus buttons working
