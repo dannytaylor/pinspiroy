@@ -24,12 +24,12 @@ I have the button and gesture bindings set up with the following for defaults
 
 Buttons clockwise from top right of trackpad:
 ```
-button1: left control (hold) 	# eyedropper
-button2: E 						# eraser tool
-button3: spacebar (hold)		# pan tool
-button4: shift (hold)			# brush resizer
-button5: ctrl + shift + z		# redo
-button6: ctrl + z				# undo
+button1: left control (hold)	# eyedropper
+button2: E			# eraser tool
+button3: spacebar (hold)	# pan tool
+button4: shift (hold)		# brush resizer
+button5: ctrl + shift + z	# redo
+button6: ctrl + z		# undo
 ```
 
 Trackpad gestures:
@@ -38,15 +38,15 @@ Two fingers:
 up/down/left/right: arrow keys
 
 Three fingers:
-up/down: 		ctrl + +/-		# zoom in/out 		
-left/right: 	ctrl + [/]		# rotate cc/c
+up/down: ctrl + '+' / '-' # zoom in/out 		
+left/right: ctrl + '[' / ']' # rotate cc/c
 
 Taps:
-one finger:		mouse left
-two fingers:	mouse right
-three fingers:	mouse middle
+one finger: mouse left
+two fingers: mouse right
+three fingers: mouse middle
 
-pinch in/out: 	unbound
+Pinch in/out: unbound
 
 ```
 
