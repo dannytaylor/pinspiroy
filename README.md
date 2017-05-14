@@ -15,6 +15,7 @@ _$ sudo python pinspiroy.py_
 You may need to first connect the device to a Windows VM to flip the tablet into full-functioning mode. This mode should persist on reboot and without the VM, but will not persist on reconnecting the USB dongle.
 
 Configuration values are found in config.py. Currently it's just bools for rotating axes for left-handed use and disabling the trackpad. The pad buttons are setup to change positions when rotated also.
+Added options for simple pressure curves and pressure needed for a full stroke. Defaults are linear pressure and 100% force for full pressure. I'd recommend using your art programs pressure adjustments instead of these options if you can.
 
 Button and gesture bindings are found in bindings.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
 

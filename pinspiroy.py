@@ -5,12 +5,17 @@ import usb.util
 import time
 
 import bindings
-from config import LEFT_HANDED as LEFT_HANDED,TRACKPAD_ENABLED as TRACKPAD_ENABLED
+import math
+from config import LEFT_HANDED as LEFT_HANDED,\
+	TRACKPAD_ENABLED as TRACKPAD_ENABLED, \
+	PRESSURE_CURVE as PRESSURE_CURVE, \
+	FULL_PRESSURE as FULL_PRESSURE
 
 #tablet config values
 PEN_MAX_X = 50800
 PEN_MAX_Y = 31750 
 PEN_MAX_Z = 2048 	#pressure
+
 msc = 1
 #specify capabilities for a virtual device
 #one for each device:
@@ -77,12 +82,25 @@ def id_trk(data):
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
 		vtrack.syn()
 
+def pressure_curve(z):
+	z = z/FULL_PRESSURE
+	if z > PEN_MAX_Z:
+		z = PEN_MAX_Z
+	if PRESSURE_CURVE == 'LINEAR':
+		pass
+	elif PRESSURE_CURVE == 'HARD':
+		z = z*z/PEN_MAX_Z
+	elif PRESSURE_CURVE == 'SOFT':
+		z = z*math.sqrt(z)/math.sqrt(PEN_MAX_Z)
+	return math.floor(z)
+
 #handler for pen input
 def id_pen(data):
 	x = data[3]*255 + data[2]
 	y = data[5]*255 + data[4]
 	z = data[7]*255 + data[6]
 
+	z = pressure_curve(z)
 	#rotate coordinates if left handed
 	if LEFT_HANDED:
 		x = PEN_MAX_X-x
