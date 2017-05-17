@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from evdev import UInput, ecodes, events, AbsInfo, util
 import sys
 import usb.core
@@ -99,8 +101,8 @@ def id_pen(data):
 	x = data[3]*255 + data[2]
 	y = data[5]*255 + data[4]
 	z = data[7]*255 + data[6]
-
-	z = pressure_curve(z)
+	if PRESSURE_CURVE:
+		z = pressure_curve(z)
 	#rotate coordinates if left handed
 	if LEFT_HANDED:
 		x = PEN_MAX_X-x
@@ -248,7 +250,6 @@ while True:
 		##msc+=1
 		# data received as array of [0,255] ints
 		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
-		print (data)
 		input_switch[data[1]](data)
 	except usb.core.USBError as e:
 		data = None
