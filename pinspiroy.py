@@ -240,11 +240,14 @@ endpoint = dev[0][(0,0)][0]
 if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
+	print('interface 0 grabbed')
 interface = 1
 if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
+	print('interface 1 grabbed')
 ##msc = 1
+print('pinspiroy driver should be running!')
 while True:
 	try:
 		##msc+=1
