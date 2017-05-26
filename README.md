@@ -1,6 +1,6 @@
 # pinspiroy
 
-pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not a driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
+pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
 All features of the tablet are working with this, but it isn't an ideal fix. Also I'm not really familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver.
 
@@ -39,15 +39,15 @@ Two fingers:
 up/down/left/right: arrow keys
 
 Three fingers:
-up/down:    ctrl + +/-  # zoom in/out 		
-left/right: ctrl + [/]  # rotate cc/c
+up/down:            ctrl + +/-  # zoom in/out 		
+left/right:         ctrl + [/]  # rotate cc/c
 
 Taps:
-one finger:     mouse left
-two fingers:    mouse right
-three fingers:  mouse middle
+one finger:         mouse left
+two fingers:        mouse right
+three fingers:      mouse middle
 
-Pinch in/out: unbound
+Pinch in/out:       unbound
 
 ```
 
