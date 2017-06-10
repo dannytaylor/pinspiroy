@@ -68,7 +68,9 @@ def id_btn(data):
 		btn_switch[data[4]](vbtn)
 	
 def id_gst(data):
-	if LEFT_HANDED:
+	if data[4] == 24 or data[4] == 25:
+		print('key error: ' + str(data[4]))
+	elif LEFT_HANDED:
 		gst_switch_LH[data[4]](vbtn)
 	else:
 		gst_switch[data[4]](vbtn)
