@@ -1,4 +1,5 @@
-![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/header.png)
+<!-- ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/header.png) -->
+# pinspiroy
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
@@ -72,4 +73,4 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - Get stylus buttons working
 - load config by argument for program specific bindings
 
-![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin.gif)
+![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)
