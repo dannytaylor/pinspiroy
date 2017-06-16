@@ -23,6 +23,8 @@ Button and gesture bindings are found in bindings.py. Note: If you're adding new
 
 I have the button and gesture bindings set up with the following for defaults
 
+![]({{site.baseurl}}/docs/buttons.png)
+
 Buttons clockwise from top left of trackpad:
 ```
 button1: left control (hold)	# eyedropper
@@ -70,4 +72,4 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - Get stylus buttons working
 - load config by argument for program specific bindings
 
-![](http://i.imgur.com/TnkwJHm.gif)
+![]({{site.baseurl}}/docs/spin.gif)
