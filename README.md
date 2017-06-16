@@ -1,4 +1,4 @@
-# pinspiroy
+![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/header.png)
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
