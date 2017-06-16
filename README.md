@@ -2,7 +2,7 @@
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
-All features of the tablet are working with this, but it isn't an ideal fix. Also I'm not really familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver.
+All features of the tablet (except stylus side buttons) are working with this, but it isn't an ideal fix. Also I'm not too familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver. If it this is helpful (or not working) for you I'd love to know! [@xhiggy] (https://twitter.com/xhiggy)
 
 ## Requirements
 - [pyusb](https://walac.github.io/pyusb/) (pip install pyusb)
@@ -68,3 +68,6 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed
 - Add support for tablet in impaired mode
 - Get stylus buttons working
+- load config by argument for program specific bindings
+
+![](http://i.imgur.com/TnkwJHm.gif)
