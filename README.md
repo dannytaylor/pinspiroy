@@ -1,9 +1,13 @@
 <!-- ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/header.png) -->
+
+## !!!
+## tablet portion seems to be broken after a system update on Archlinux. kernel downgrade didn't work, python modules and uinput appear to be working still. buttons and touchpad still working. device firmware hasn't been updated as far as I know. I will need to spend some time debuging the issue. pen tablet still working under Windows.
+
 # pinspiroy
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
-All features of the tablet (except stylus side buttons) are working with this, but it isn't an ideal fix. Also I'm not too familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver. If it this is helpful (or not working) for you I'd love to know! [@xhiggy] (https://twitter.com/xhiggy)
+All features of the tablet (except stylus side buttons) are working with this, but it isn't an ideal fix. Also I'm not too familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver. If it this is helpful (or not working) for you I'd love to know! [@xhiggy](https://twitter.com/xhiggy)
 
 ## Requirements
 - [pyusb](https://walac.github.io/pyusb/) (pip install pyusb)
