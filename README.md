@@ -1,7 +1,4 @@
-<!-- ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/header.png) -->
-
-## !!!
-## tablet portion seems to be broken after a system update on Archlinux. kernel downgrade didn't work, python modules and uinput appear to be working still. buttons and touchpad still working. device firmware hasn't been updated as far as I know. I will need to spend some time debuging the issue. pen tablet still working under Windows.
+### Pen tablet functionality seems to be broken after a system update on Archlinux. Driver still works on Ubuntu 16.04. Seems to be an issue with the newer Linux kernel and how uinput interprets BTN\_TOOL\_PEN. Downgrading the kernel doesn't seem to fix the issue, may have to recompile the uinput module from an older kernel (<4.11) manually.
 
 # pinspiroy
 
@@ -63,7 +60,7 @@ Pinch in/out:       unbound
 This program requires the uinput module to be loaded. Either manually (_sudo modprobe uinput_)
 or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.php/Kernel_modules).
 
-**Insufficient permissions:** This program requires access to read USB data (pyusb/libusb) and create and write to the virtual devices(python-evdev/uinput). Either run as superuser or add the appropriate permissions where needed.
+**Insufficient permissions:** This program requires root access to read USB data (pyusb/libusb). You could add this to your sudoers file to run at start without password entry, but that is not recommended for security reasons.
 
 **Pen not moving on contact, buttons and trackpad working:** This seems to be a problem with libinput requiring a pen resolution; changing the resolution with python-evdev doesn't seem to work. Check that you don't have a libinput driver catchall rule for tablets in your xorg.conf.d/. You may need a evdev driver catchall rule for tablets.
 
@@ -76,5 +73,6 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - Add support for tablet in impaired mode
 - Get stylus buttons working
 - load config by argument for program specific bindings
+- add configuration for multiple monitors and irregular resolutions
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)

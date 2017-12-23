@@ -54,9 +54,9 @@ cap_btn = {
 	}
 
 # create our 3 virtual devices
-vpen 	= UInput(cap_pen, 	name="pynspiroy-pen", 		version=0x3)
-vtrack 	= UInput(cap_track, name="pynspiroy-trackpad", 	version=0x4)
-vbtn	= UInput(cap_btn, 	name="pynspiroy-button", 	version=0x5)
+vpen 	= UInput(cap_pen, 	name="pinspiroy-pen", 		version=0x3)
+vtrack 	= UInput(cap_track, name="pinspiroy-trackpad", 	version=0x4)
+vbtn	= UInput(cap_btn, 	name="pinspiroy-button", 	version=0x5)
 
 time.sleep(0.1) # needed due to some xserver feature 
 
