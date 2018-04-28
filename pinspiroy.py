@@ -100,9 +100,9 @@ def pressure_curve(z):
 
 #handler for pen input
 def id_pen(data):
-	x = data[3]*255 + data[2]
-	y = data[5]*255 + data[4]
-	z = data[7]*255 + data[6]
+	x = data[3]*256 + data[2]
+	y = data[5]*256 + data[4]
+	z = data[7]*256 + data[6]
 	if PRESSURE_CURVE:
 		z = pressure_curve(z)
 	#rotate coordinates if left handed
