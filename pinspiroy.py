@@ -5,18 +5,25 @@ import sys
 import usb.core
 import usb.util
 import time
+import gtk
 
 import bindings
 import math
-from config import LEFT_HANDED as LEFT_HANDED,\
-	TRACKPAD_ENABLED as TRACKPAD_ENABLED, \
-	PRESSURE_CURVE as PRESSURE_CURVE, \
-	FULL_PRESSURE as FULL_PRESSURE
+import config as g
 
 #tablet config values
 PEN_MAX_X = 50800
 PEN_MAX_Y = 31750 
 PEN_MAX_Z = 2048 	#pressure
+
+# user specs
+MAX_W = gtk.gdk.screen_width()
+MAX_H = gtk.gdk.screen_height()
+
+x_scale  = g.MONITOR_W/float(MAX_W)
+x_offset = PEN_MAX_X*g.MONITOR_X/float(MAX_W)
+y_scale  = g.MONITOR_H/float(MAX_H)
+y_offset = PEN_MAX_Y*g.MONITOR_Y/float(MAX_H)
 
 msc = 1
 #specify capabilities for a virtual device
@@ -62,7 +69,7 @@ time.sleep(0.1) # needed due to some xserver feature
 
 # input specific functions
 def id_btn(data):
-	if LEFT_HANDED:
+	if g.LEFT_HANDED:
 		btn_switch_LH[data[4]](vbtn)
 	else:
 		btn_switch[data[4]](vbtn)
@@ -70,31 +77,33 @@ def id_btn(data):
 def id_gst(data):
 	if data[4] == 24 or data[4] == 25:
 		print('key error: ' + str(data[4]))
-	elif LEFT_HANDED:
+	elif g.LEFT_HANDED:
 		gst_switch_LH[data[4]](vbtn)
 	else:
 		gst_switch[data[4]](vbtn)
 
 def id_trk(data):
-	if TRACKPAD_ENABLED:
-		x = data[3]*255 + data[2]
-		y = data[5]*255 + data[4]
-		if LEFT_HANDED:	
+	if g.TRACKPAD_ENABLED:
+		x = data[3]*256 + data[2]
+		y = data[5]*256 + data[4]
+		if g.LEFT_HANDED:	
 			x = PEN_MAX_X-x
 			y = PEN_MAX_Y-y
+		x = int(math.floor(x*x_scale+x_offset))
+		y = int(math.floor(y*y_scale+y_offset))
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_X, x)
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
 		vtrack.syn()
 
 def pressure_curve(z):
-	z = z/FULL_PRESSURE
+	z = z/g.FULL_PRESSURE
 	if z > PEN_MAX_Z:
 		z = PEN_MAX_Z
-	if PRESSURE_CURVE == 'LINEAR':
+	if g.PRESSURE_CURVE == 'LINEAR':
 		pass
-	elif PRESSURE_CURVE == 'HARD':
+	elif g.PRESSURE_CURVE == 'HARD':
 		z = z*z/PEN_MAX_Z
-	elif PRESSURE_CURVE == 'SOFT':
+	elif g.PRESSURE_CURVE == 'SOFT':
 		z = z*math.sqrt(z)/math.sqrt(PEN_MAX_Z)
 	return math.floor(z)
 
@@ -103,15 +112,16 @@ def id_pen(data):
 	x = data[3]*256 + data[2]
 	y = data[5]*256 + data[4]
 	z = data[7]*256 + data[6]
-	if PRESSURE_CURVE:
+	
+	if g.PRESSURE_CURVE:
 		z = pressure_curve(z)
 	#rotate coordinates if left handed
-	if LEFT_HANDED:
+	if g.LEFT_HANDED:
 		x = PEN_MAX_X-x
 		y = PEN_MAX_Y-y
 
-	#print(str(x) + ', ' + str(y) + '; ' + str(z))
-	#vpen.write(ecodes.EV_MSC,ecodes.MSC_SCAN,msc) # this seems to be necessary, value is arbitrary
+	x = int(math.floor(x*x_scale+x_offset))
+	y = int(math.floor(y*y_scale+y_offset))
 
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_X, x)
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
@@ -139,17 +149,17 @@ def id_pen(data):
 	vpen.syn() #sync all inputs together
 
 def gst_tap1(whatever): #single finger tap
-	if TRACKPAD_ENABLED:
+	if g.TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_LEFT, 0)
 		vtrack.syn()
 def gst_tap2(whatever): #single finger tap
-	if TRACKPAD_ENABLED:
+	if g.TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_RIGHT, 0)
 		vtrack.syn()
 def gst_tap3(whatever): #single finger tap
-	if TRACKPAD_ENABLED:
+	if g.TRACKPAD_ENABLED:
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 1)
 		vtrack.write(ecodes.EV_KEY, ecodes.BTN_MIDDLE, 0)
 		vtrack.syn()
@@ -248,11 +258,10 @@ if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
 	print('interface 1 grabbed')
-##msc = 1
+
 print('pinspiroy driver should be running!')
 while True:
 	try:
-		##msc+=1
 		# data received as array of [0,255] ints
 		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
 		input_switch[data[1]](data)
