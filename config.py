@@ -8,3 +8,9 @@ PRESSURE_CURVE   = False # LINEAR, SOFT, HARD
 #false means no additional calcs
 
 FULL_PRESSURE	 = 1.0		# force needed for full pressure, eg 0.8 pen pressure will give a full stroke
+
+MONITOR_W = 2560
+MONITOR_H = 1440
+MONITOR_X = 1080
+MONITOR_Y = 256
+
