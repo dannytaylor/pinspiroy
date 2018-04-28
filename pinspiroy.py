@@ -20,10 +20,10 @@ PEN_MAX_Z = 2048 	#pressure
 MAX_W = gtk.gdk.screen_width()
 MAX_H = gtk.gdk.screen_height()
 
-x_scale  = g.MONITOR_W/MAX_W 
-x_offset = PEN_MAX_X*g.MONITOR_X/MAX_W
-y_scale  = g.MONITOR_H/MAX_H
-y_offset = PEN_MAX_Y*g.MONITOR_Y/MAX_H
+x_scale  = g.MONITOR_W/float(MAX_W)
+x_offset = PEN_MAX_X*g.MONITOR_X/float(MAX_W)
+y_scale  = g.MONITOR_H/float(MAX_H)
+y_offset = PEN_MAX_Y*g.MONITOR_Y/float(MAX_H)
 
 msc = 1
 #specify capabilities for a virtual device
@@ -84,11 +84,13 @@ def id_gst(data):
 
 def id_trk(data):
 	if g.TRACKPAD_ENABLED:
-		x = data[3]*255 + data[2]
-		y = data[5]*255 + data[4]
+		x = data[3]*256 + data[2]
+		y = data[5]*256 + data[4]
 		if g.LEFT_HANDED:	
 			x = PEN_MAX_X-x
 			y = PEN_MAX_Y-y
+		x = int(math.floor(x*x_scale+x_offset))
+		y = int(math.floor(y*y_scale+y_offset))
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_X, x)
 		vtrack.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
 		vtrack.syn()
@@ -107,10 +109,10 @@ def pressure_curve(z):
 
 #handler for pen input
 def id_pen(data):
-	x = data[3]*255 + data[2]
-	y = data[5]*255 + data[4]
+	x = data[3]*256 + data[2]
+	y = data[5]*256 + data[4]
 	z = data[7]*256 + data[6]
-	print(z)
+	
 	if g.PRESSURE_CURVE:
 		z = pressure_curve(z)
 	#rotate coordinates if left handed
@@ -118,17 +120,8 @@ def id_pen(data):
 		x = PEN_MAX_X-x
 		y = PEN_MAX_Y-y
 
-	#print(str(x) + ', ' + str(y) + '; ' + str(z))
-	#vpen.write(ecodes.EV_MSC,ecodes.MSC_SCAN,msc) # this seems to be necessary, value is arbitrary
-
-	# x = int(math.floor(x*x_scale+x_offset))
-	# y = int(math.floor(y*y_scale+y_offset))
-
-	x = int(math.floor(x*0.7 + 15072))
-	y = int(math.floor(y*0.75 + 31750*256/1920))
-
-	# x = int(math.floor(x*g.MONITOR_W/MAX_W +PEN_MAX_X*g.MONITOR_X/MAX_W))
-	# y = int(math.floor(y*g.MONITOR_H/MAX_H+PEN_MAX_Y*g.MONITOR_Y/MAX_H))
+	x = int(math.floor(x*x_scale+x_offset))
+	y = int(math.floor(y*y_scale+y_offset))
 
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_X, x)
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
@@ -265,11 +258,10 @@ if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
 	print('interface 1 grabbed')
-##msc = 1
+
 print('pinspiroy driver should be running!')
 while True:
 	try:
-		##msc+=1
 		# data received as array of [0,255] ints
 		data = dev.read(endpoint.bEndpointAddress,endpoint.wMaxPacketSize)
 		input_switch[data[1]](data)
