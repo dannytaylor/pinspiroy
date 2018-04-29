@@ -1,15 +1,20 @@
 #!/usr/bin/python
 
 from evdev import UInput, ecodes, events, AbsInfo, util
-import sys
+import sys,os,imp,time,imp,math
 import usb.core
 import usb.util
-import time
 import gtk
 
-import bindings
-import math
-import config as g
+import default as g
+try:
+	file_name = sys.argv[1].replace(".py","")
+	file_handler, file_path, module_description = imp.find_module(file_name,[os.getcwd()])
+	g = imp.load_module(file_name, file_handler, file_path, module_description)
+	print(sys.argv[1] + " configuration loaded")
+except:
+	print("default configuration loaded")
+
 
 #tablet config values
 PEN_MAX_X = 50800
@@ -54,12 +59,16 @@ cap_track = {
 
 #buttons must be defined in the same sequential order as in the Linux specs
 #https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+
+
 cap_btn = {
-	ecodes.EV_KEY: [ecodes.KEY_MINUS,ecodes.KEY_EQUAL,ecodes.KEY_E, 
-					ecodes.KEY_LEFTBRACE,ecodes.KEY_RIGHTBRACE,
-					ecodes.KEY_LEFTCTRL, ecodes.KEY_S, ecodes.KEY_LEFTSHIFT, ecodes.KEY_Z,
-					ecodes.KEY_LEFTALT, ecodes.KEY_SPACE,
-					ecodes.KEY_UP, ecodes.KEY_LEFT, ecodes.KEY_RIGHT, ecodes.KEY_DOWN, 
+	ecodes.EV_KEY: [ecodes.KEY_ESC,
+					ecodes.KEY_1,ecodes.KEY_2,ecodes.KEY_3,ecodes.KEY_4,ecodes.KEY_5,ecodes.KEY_6,ecodes.KEY_7,ecodes.KEY_8,ecodes.KEY_9,ecodes.KEY_0,
+					ecodes.KEY_Q,ecodes.KEY_W,ecodes.KEY_E,ecodes.KEY_R,ecodes.KEY_T,ecodes.KEY_Y,ecodes.KEY_U,ecodes.KEY_I,ecodes.KEY_O,ecodes.KEY_P,ecodes.KEY_A,ecodes.KEY_S,ecodes.KEY_D,ecodes.KEY_F,ecodes.KEY_G,ecodes.KEY_H,ecodes.KEY_J,ecodes.KEY_K,ecodes.KEY_L,ecodes.KEY_Z,ecodes.KEY_X,ecodes.KEY_C,ecodes.KEY_V,ecodes.KEY_B,ecodes.KEY_N,ecodes.KEY_M,
+					ecodes.KEY_MINUS,ecodes.KEY_EQUAL,ecodes.KEY_BACKSPACE,ecodes.KEY_TAB,ecodes.KEY_LEFTBRACE,ecodes.KEY_RIGHTBRACE,ecodes.KEY_ENTER,ecodes.KEY_LEFTCTRL,ecodes.KEY_SEMICOLON,ecodes.KEY_APOSTROPHE,ecodes.KEY_GRAVE,ecodes.KEY_LEFTSHIFT,ecodes.KEY_BACKSLASH,
+					ecodes.KEY_COMMA,ecodes.KEY_DOT,ecodes.KEY_SLASH,ecodes.KEY_RIGHTSHIFT,ecodes.KEY_KPASTERISK,ecodes.KEY_LEFTALT,ecodes.KEY_SPACE,ecodes.KEY_CAPSLOCK,ecodes.KEY_F1,ecodes.KEY_F2,ecodes.KEY_F3,ecodes.KEY_F4,ecodes.KEY_F5,ecodes.KEY_F6,ecodes.KEY_F7,ecodes.KEY_F8,ecodes.KEY_F9,ecodes.KEY_F10,
+					ecodes.KEY_NUMLOCK,ecodes.KEY_SCROLLLOCK,ecodes.KEY_KP7,ecodes.KEY_KP8,ecodes.KEY_KP9,ecodes.KEY_KPMINUS,ecodes.KEY_KP4,ecodes.KEY_KP5,ecodes.KEY_KP6,ecodes.KEY_KPPLUS,ecodes.KEY_KP1,ecodes.KEY_KP2,ecodes.KEY_KP3,ecodes.KEY_KP0,ecodes.KEY_KPDOT,
+					ecodes.KEY_RIGHTALT,ecodes.KEY_LINEFEED,ecodes.KEY_HOME,ecodes.KEY_UP,ecodes.KEY_PAGEUP,ecodes.KEY_LEFT,ecodes.KEY_RIGHT,ecodes.KEY_END,ecodes.KEY_DOWN,ecodes.KEY_PAGEDOWN,ecodes.KEY_INSERT, ecodes.KEY_DELETE,
 					ecodes.BTN_MOUSE, ecodes.BTN_LEFT, ecodes.BTN_RIGHT, ecodes.BTN_MIDDLE]
 	}
 
@@ -187,68 +196,75 @@ input_switch = {
 
 # switch to handle button types
 btn_switch = {
-	1 :bindings.btn1, #clockwise from top left
-	2 :bindings.btn2, 
-	4 :bindings.btn3, 
-	8 :bindings.btn4, 
-	16:bindings.btn5, 
-	32:bindings.btn6, 
+	1 :g.btn1, #clockwise from top left
+	2 :g.btn2, 
+	4 :g.btn3, 
+	8 :g.btn4, 
+	16:g.btn5, 
+	32:g.btn6, 
 
-	0 :bindings.btn0, #button released
+	0 :g.btn0, #button released
 }
 
 # reverse button order for LH setting
 btn_switch_LH = {
-	32:bindings.btn1, #clockwise from top left
-	16:bindings.btn2, 
-	8 :bindings.btn3, 
-	4 :bindings.btn4, 
-	2 :bindings.btn5, 
-	1 :bindings.btn6, 
+	32:g.btn1, #clockwise from top left
+	16:g.btn2, 
+	8 :g.btn3, 
+	4 :g.btn4, 
+	2 :g.btn5, 
+	1 :g.btn6, 
 
-	0 :bindings.btn0, #button released
+	0 :g.btn0, #button released
 }
 
 # switch to handle gesture types
 gst_switch = {
-	18:bindings.gst_left, #2 fingers
-	19:bindings.gst_right, 
-	20:bindings.gst_up,
- 	21:bindings.gst_down, 	
+	#2 fingers
+	18:g.gst1, 	#left
+	19:g.gst2, 	#right
+	20:g.gst3, 	#up
+ 	21:g.gst4, 	#down
 
- 	36:bindings.gst_left3, #3 fingers
-	37:bindings.gst_right3, 
-	34:bindings.gst_up3,
- 	35:bindings.gst_down3, 
+ 	# 3 fingers
+ 	36:g.gst5, 	#left
+	37:g.gst6, 	#right
+	34:g.gst7, 	#up
+ 	35:g.gst8, 	#down
 
- 	22:bindings.gst_zoomin, #2 fingers expand
- 	23:bindings.gst_zoomout, #2 fingers pinch
+ 	# 2 finger pinch
+ 	22:g.gst9, 	# expand/pinch out
+ 	23:g.gst10, 	# pinch in 
 
  	1 :gst_tap1, #single finger tap
  	17:gst_tap2, #2 finger tap
  	33:gst_tap3, #3 finger tap
- 	0 :bindings.gst_end, #any gesture release
+ 	0 :g.gst0, #any gesture release
 
 }
+
 #reverse gesture axes for LH setting
 gst_switch_LH = {
-	19:bindings.gst_left, #2 fingers
-	18:bindings.gst_right, 
-	21:bindings.gst_up,
- 	20:bindings.gst_down, 	
+	#2 fingers
+	19:g.gst1, 	#left
+	18:g.gst2, 	#right
+	21:g.gst3, 	#up
+ 	20:g.gst4, 	#down
 
- 	37:bindings.gst_left3, #3 fingers
-	36:bindings.gst_right3, 
-	35:bindings.gst_up3,
- 	34:bindings.gst_down3, 
+ 	# 3 fingers
+ 	37:g.gst5, 	#left
+	36:g.gst6, 	#right
+	35:g.gst7, 	#up
+ 	34:g.gst8, 	#down
 
- 	22:bindings.gst_zoomin, #2 fingers expand
- 	23:bindings.gst_zoomout, #2 fingers pinch
+ 	# 2 finger pinch
+ 	22:g.gst9, 	# expand/pinch out
+ 	23:g.gst10, 	# pinch in 
 
  	1 :gst_tap1, #single finger tap
  	17:gst_tap2, #2 finger tap
  	33:gst_tap3, #3 finger tap
- 	0 :bindings.gst_end, #any gesture release
+ 	0 :g.gst0, #any gesture release
 
 }
 
