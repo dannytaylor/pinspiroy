@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import gtk
 
 class PinWiz(gtk.Window):
@@ -7,7 +9,7 @@ class PinWiz(gtk.Window):
 		super(PinWiz, self).__init__()
 
 		self.set_title("pin wiz config tool")
-		self.set_size_request(320, 480)
+		self.set_size_request(360, 520)
 		self.set_border_width(8)
 		self.set_position(gtk.WIN_POS_CENTER)
 
@@ -43,331 +45,146 @@ class PinWiz(gtk.Window):
 		
 
 		#checkbox buttons
-		b_trackpad = gtk.CheckButton("Enable trackpad")
-		b_lefthanded = gtk.CheckButton("Enable left-handed")
+		self.b_trackpad = gtk.CheckButton("Enable trackpad")
+		self.b_lefthanded = gtk.CheckButton("Enable left-handed")
 
 		#pressure curve options
-		cb_label = gtk.Label("pressure curve:")
-		cb_pressure = gtk.combo_box_new_text()
-		cb_pressure.set_size_request(120,32)
-		cb_pressure.append_text('linear')
-		cb_pressure.append_text('soft')
-		cb_pressure.append_text('hard')
-		cb_pressure.set_active(0)
+		self.cb_label = gtk.Label("pressure curve:")
+		self.cb_pressure = gtk.combo_box_new_text()
+		self.cb_pressure.set_size_request(120,32)
+		self.cb_pressure.append_text('linear')
+		self.cb_pressure.append_text('soft')
+		self.cb_pressure.append_text('hard')
+		self.cb_pressure.set_active(0)
 
 
 		#target offset settings
-		offset_lbox = gtk.Label("monitor offset:")
-		offset_box = gtk.HBox(False, 6)
-		offset_x = gtk.Entry()
-		offset_x.set_size_request(24,32)
-		offset_x.set_text("0")
-		offset_y = gtk.Entry()
-		offset_y.set_text("0")
-		offset_y.set_size_request(24,32)
-		offset_lx = gtk.Label("x:")
-		offset_ly = gtk.Label("y:")
-		offset_box.add(offset_lx)
-		offset_box.add(offset_x)
-		offset_box.add(offset_ly)
-		offset_box.add(offset_y)
+		self.offset_lbox = gtk.Label("monitor offset:")
+		self.offset_box = gtk.HBox(False, 6)
+		self.offset_x = gtk.Entry()
+		self.offset_x.set_size_request(24,32)
+		self.offset_x.set_text("0")
+		self.offset_y = gtk.Entry()
+		self.offset_y.set_text("0")
+		self.offset_y.set_size_request(24,32)
+		self.offset_lx = gtk.Label("x:")
+		self.offset_ly = gtk.Label("y:")
+		self.offset_box.add(self.offset_lx)
+		self.offset_box.add(self.offset_x)
+		self.offset_box.add(self.offset_ly)
+		self.offset_box.add(self.offset_y)
 
 		#target monitor dimensions
-		dim_lbox = gtk.Label("target monitor dimensions:")
-		dim_box = gtk.HBox(False, 6)
-		dim_x = gtk.Entry()
-		dim_x.set_text(str(gtk.gdk.screen_width()))
-		dim_x.set_size_request(24,32)
-		dim_y = gtk.Entry()
-		dim_y.set_text(str(gtk.gdk.screen_height()))
-		dim_y.set_size_request(24,32)
-		dim_lx = gtk.Label("w:")
-		dim_ly = gtk.Label("h:")
-		dim_box.add(dim_lx)
-		dim_box.add(dim_x)
-		dim_box.add(dim_ly)
-		dim_box.add(dim_y)
+		self.dim_lbox = gtk.Label("target monitor dimensions:")
+		self.dim_box = gtk.HBox(False, 6)
+		self.dim_x = gtk.Entry()
+		self.dim_x.set_text(str(gtk.gdk.screen_width()))
+		self.dim_x.set_size_request(24,32)
+		self.dim_y = gtk.Entry()
+		self.dim_y.set_text(str(gtk.gdk.screen_height()))
+		self.dim_y.set_size_request(24,32)
+		self.dim_lx = gtk.Label("w:")
+		self.dim_ly = gtk.Label("h:")
+		self.dim_box.add(self.dim_lx)
+		self.dim_box.add(self.dim_x)
+		self.dim_box.add(self.dim_ly)
+		self.dim_box.add(self.dim_y)
 
+		self.btn = [0,1,2,3,4,5,6]
+		self.b = [0,1,2,3,4,5,6]
 
 		# btn configs
-		btn0 = gtk.HBox(False, 3)
-		btn01 = gtk.Label("")
-		btn02 = gtk.Label("mod1")
-		btn02.set_size_request(16,24)
-		btn03 = gtk.Label("mod2")
-		btn03.set_size_request(16,24)
-		btn04 = gtk.Label("key")
-		btn0.add(btn01)
-		btn0.add(btn02)
-		btn0.add(btn03)
-		btn0.add(btn04)
+		lalign = gtk.Alignment(0, 0, 0, 0)
+		self.btn[0] = [1,2,3,4]
+		self.b[0] = gtk.HBox(True, 3)
+		self.btn[0][0] = gtk.Label("BUTTONS")
+		self.btn[0][1] = gtk.Label("mod1")
+		self.btn[0][2] = gtk.Label("mod2")
+		self.btn[0][3] = gtk.Label("key")
+		self.b[0].add(self.btn[0][0])
+		self.b[0].add(self.btn[0][1])
+		self.b[0].add(self.btn[0][2])
+		self.b[0].add(self.btn[0][3])
+
+		for i in range(1,7):
+			self.btn[i] = [1,2,3,4]
+			self.b[i] = gtk.HBox(True, 3)
+			self.btn[i][0] = gtk.Label("btn"+str(i))
+			self.btn[i][1] = clone_widget("mod")
+			self.btn[i][2] = clone_widget("mod")
+			self.btn[i][3] = clone_widget("key")
+			self.b[i].add(self.btn[i][0])
+			self.b[i].add(self.btn[i][1])
+			self.b[i].add(self.btn[i][2])
+			self.b[i].add(self.btn[i][3])
 
 
-		# btn1
-		btn1 = gtk.HBox(False, 3)
-		btn11 = gtk.Label("btn1")
-		btn12 = clone_widget("mod")
-		btn13 = clone_widget("mod")
-		btn14 = clone_widget("key")
-		btn1.add(btn11)
-		btn1.add(btn12)
-		btn1.add(btn13)
-		btn1.add(btn14)
-		# btn2
-		btn2 = gtk.HBox(False, 3)
-		btn21 = gtk.Label("btn2")
-		btn22 = clone_widget("mod")
-		btn23 = clone_widget("mod")
-		btn24 = clone_widget("key")
-		btn2.add(btn21)
-		btn2.add(btn22)
-		btn2.add(btn23)
-		btn2.add(btn24)
-		# btn3
-		btn3 = gtk.HBox(False, 3)
-		btn31 = gtk.Label("btn3")
-		btn32 = clone_widget("mod")
-		btn33 = clone_widget("mod")
-		btn34 = clone_widget("key")
-		btn3.add(btn31)
-		btn3.add(btn32)
-		btn3.add(btn33)
-		btn3.add(btn34)
-		# btn4
-		btn4 = gtk.HBox(False, 3)
-		btn41 = gtk.Label("btn4")
-		btn42 = clone_widget("mod")
-		btn43 = clone_widget("mod")
-		btn44 = clone_widget("key")
-		btn4.add(btn41)
-		btn4.add(btn42)
-		btn4.add(btn43)
-		btn4.add(btn44)
-		# btn5
-		btn5 = gtk.HBox(False, 3)
-		btn51 = gtk.Label("btn5")
-		btn52 = clone_widget("mod")
-		btn53 = clone_widget("mod")
-		btn54 = clone_widget("key")
-		btn5.add(btn51)
-		btn5.add(btn52)
-		btn5.add(btn53)
-		btn5.add(btn54)
-		# btn6
-		btn6 = gtk.HBox(False, 3)
-		btn61 = gtk.Label("btn6")
-		btn62 = clone_widget("mod")
-		btn63 = clone_widget("mod")
-		btn64 = clone_widget("key")
-		btn6.add(btn61)
-		btn6.add(btn62)
-		btn6.add(btn63)
-		btn6.add(btn64)
+		self.gst = [0,1,2,3,4,5,6,7,8,9,10]
+		self.g = [0,1,2,3,4,5,6,7,8,9,10]
 
-		# gesture headers
-		gstr0 = gtk.HBox(False, 3)
-		gstr01 = gtk.Label("")
-		gstr02 = gtk.Label("mod1")
-		gstr02.set_size_request(16,24)
-		gstr03 = gtk.Label("mod2")
-		gstr03.set_size_request(16,24)
-		gstr04 = gtk.Label("key")
-		gstr0.add(gstr01)
-		gstr0.add(gstr02)
-		gstr0.add(gstr03)
-		gstr0.add(gstr04)
-		# gesture1 - 2 left
-		gstr1 = gtk.HBox(False, 3)
-		gstr11 = gtk.Label("2 <")
-		gstr12 = clone_widget("mod")
-		gstr13 = clone_widget("mod")
-		gstr14 = clone_widget("key")
-		gstr1.add(gstr11)
-		gstr1.add(gstr12)
-		gstr1.add(gstr13)
-		gstr1.add(gstr14)
-		# gesture2 - 2 right
-		gstr2 = gtk.HBox(False, 3)
-		gstr21 = gtk.Label("2 >")
-		gstr22 = clone_widget("mod")
-		gstr23 = clone_widget("mod")
-		gstr24 = clone_widget("key")
-		gstr2.add(gstr21)
-		gstr2.add(gstr22)
-		gstr2.add(gstr23)
-		gstr2.add(gstr24)
-		# gesture3 - 2 up
-		gstr3 = gtk.HBox(False, 3)
-		gstr31 = gtk.Label("2 ^")
-		gstr32 = clone_widget("mod")
-		gstr33 = clone_widget("mod")
-		gstr34 = clone_widget("key")
-		gstr3.add(gstr31)
-		gstr3.add(gstr32)
-		gstr3.add(gstr33)
-		gstr3.add(gstr34)
-		# gesture4 - 2 down
-		gstr4 = gtk.HBox(False, 3)
-		gstr41 = gtk.Label("2 <")
-		gstr42 = clone_widget("mod")
-		gstr43 = clone_widget("mod")
-		gstr44 = clone_widget("key")
-		gstr4.add(gstr41)
-		gstr4.add(gstr42)
-		gstr4.add(gstr43)
-		gstr4.add(gstr44)
-		# gesture5 - 3 left
-		gstr5 = gtk.HBox(False, 3)
-		gstr51 = gtk.Label("3 <")
-		gstr52 = clone_widget("mod")
-		gstr53 = clone_widget("mod")
-		gstr54 = clone_widget("key")
-		gstr5.add(gstr51)
-		gstr5.add(gstr52)
-		gstr5.add(gstr53)
-		gstr5.add(gstr54)
-		# gesture6 - 3 right
-		gstr6 = gtk.HBox(False, 3)
-		gstr61 = gtk.Label("3 >")
-		gstr62 = clone_widget("mod")
-		gstr63 = clone_widget("mod")
-		gstr64 = clone_widget("key")
-		gstr6.add(gstr61)
-		gstr6.add(gstr62)
-		gstr6.add(gstr63)
-		gstr6.add(gstr64)
-		# gesture7 - 3 up
-		gstr7 = gtk.HBox(False, 3)
-		gstr71 = gtk.Label("3 ^")
-		gstr72 = clone_widget("mod")
-		gstr73 = clone_widget("mod")
-		gstr74 = clone_widget("key")
-		gstr7.add(gstr71)
-		gstr7.add(gstr72)
-		gstr7.add(gstr73)
-		gstr7.add(gstr74)
-		# gesture8 - 3 down
-		gstr8 = gtk.HBox(False, 3)
-		gstr81 = gtk.Label("3 v")
-		gstr82 = clone_widget("mod")
-		gstr83 = clone_widget("mod")
-		gstr84 = clone_widget("key")
-		gstr8.add(gstr81)
-		gstr8.add(gstr82)
-		gstr8.add(gstr83)
-		gstr8.add(gstr84)
+		# gst configs
+		self.gst[0] = [1,2,3,4]
+		self.g[0] = gtk.HBox(True, 3)
+		self.gst[0][0] = gtk.Label("GESTURES")
+		self.gst[0][1] = gtk.Label("mod1")
+		self.gst[0][2] = gtk.Label("mod2")
+		self.gst[0][3] = gtk.Label("key")
+		self.g[0].add(self.gst[0][0])
+		self.g[0].add(self.gst[0][1])
+		self.g[0].add(self.gst[0][2])
+		self.g[0].add(self.gst[0][3])
 
-
-		# gesture9 - pinch in
-		gstrx1 = gtk.HBox(False, 3)
-		gstrx11 = gtk.Label("><")
-		gstrx12 = clone_widget("mod")
-		gstrx13 = clone_widget("mod")
-		gstrx14 = clone_widget("key")
-		gstrx1.add(gstrx11)
-		gstrx1.add(gstrx12)
-		gstrx1.add(gstrx13)
-		gstrx1.add(gstrx14)		
-		# gesture10 - pinch out
-		gstrx2 = gtk.HBox(False, 3)
-		gstrx21 = gtk.Label("<>")
-		gstrx22 = clone_widget("mod")
-		gstrx23 = clone_widget("mod")
-		gstrx24 = clone_widget("key")
-		gstrx2.add(gstrx21)
-		gstrx2.add(gstrx22)
-		gstrx2.add(gstrx23)
-		gstrx2.add(gstrx24)		
-		# gesture11 - tap1
-		gstrx3 = gtk.HBox(False, 3)
-		gstrx31 = gtk.Label("tap1")
-		gstrx32 = clone_widget("mod")
-		gstrx33 = clone_widget("mod")
-		gstrx34 = clone_widget("key")
-		gstrx3.add(gstrx31)
-		gstrx3.add(gstrx32)
-		gstrx3.add(gstrx33)
-		gstrx3.add(gstrx34)		
-		# gesture11 - tap2
-		gstrx4 = gtk.HBox(False, 3)
-		gstrx41 = gtk.Label("tap2")
-		gstrx42 = clone_widget("mod")
-		gstrx43 = clone_widget("mod")
-		gstrx44 = clone_widget("key")
-		gstrx4.add(gstrx41)
-		gstrx4.add(gstrx42)
-		gstrx4.add(gstrx43)
-		gstrx4.add(gstrx44)		
-		# gesture11 - tap1
-		gstrx5 = gtk.HBox(False, 3)
-		gstrx51 = gtk.Label("tap3")
-		gstrx52 = clone_widget("mod")
-		gstrx53 = clone_widget("mod")
-		gstrx54 = clone_widget("key")
-		gstrx5.add(gstrx51)
-		gstrx5.add(gstrx52)
-		gstrx5.add(gstrx53)
-		gstrx5.add(gstrx54)
-
+		for i in range(1,11):
+			self.gst[i] = [1,2,3,4]
+			self.g[i] = gtk.HBox(True, 3)
+			self.gst[i][0] = gtk.Label(gst_list[i-1])
+			self.gst[i][1] = clone_widget("mod")
+			self.gst[i][2] = clone_widget("mod")
+			self.gst[i][3] = clone_widget("key")
+			self.g[i].add(self.gst[i][0])
+			self.g[i].add(self.gst[i][1])
+			self.g[i].add(self.gst[i][2])
+			self.g[i].add(self.gst[i][3])
 
 		#export name
-		ex_box = gtk.HBox(False, 3)
-		ex_l1 = gtk.Label("export as: ")
-		ex_name = gtk.Entry()
-		ex_name.set_text("settings.conf")
-		ex_box.add(ex_l1)
-		ex_box.add(ex_name)
-		vbox.pack_start(align_top)
+		self.ex_box = gtk.HBox(False, 3)
+		self.ex_l1 = gtk.Label("export as: ")
+		self.ex_name = gtk.Entry()
+		self.ex_name.set_text("settings.py")
+		self.ex_box.add(self.ex_l1)
+		self.ex_box.add(self.ex_name)
 
 
 		#gtk, putting everything together
-		self.page1.pack_start(b_trackpad, False, False, 3)
-		self.page1.pack_start(b_lefthanded, False, False, 3)
+		self.page1.pack_start(self.b_trackpad, False, False, 3)
+		self.page1.pack_start(self.b_lefthanded, False, False, 3)
 		
 		#leave fine tuning pressure adjustment to the art software
 		#self.page1.pack_start(cb_label, False, False, 3)
 		#self.page1.pack_start(cb_pressure, False, False, 3)
-		self.page1.pack_start(offset_lbox, False, False, 3)
-		self.page1.pack_start(offset_box, False, False, 3)
-		self.page1.pack_start(dim_lbox, False, False, 3)
-		self.page1.pack_start(dim_box, False, False, 3)
-		self.page1.pack_end(ex_box, False, False, 16)
+		self.page1.pack_start(self.offset_lbox, False, False, 3)
+		self.page1.pack_start(self.offset_box, False, False, 3)
+		self.page1.pack_start(self.dim_lbox, False, False, 3)
+		self.page1.pack_start(self.dim_box, False, False, 3)
 
 
 		self.page2 = gtk.VBox(False, 5)
-		self.page2.pack_start(btn0, False, False, 3)
-		self.page2.pack_start(btn1, False, False, 3)
-		self.page2.pack_start(btn2, False, False, 3)
-		self.page2.pack_start(btn3, False, False, 3)
-		self.page2.pack_start(btn4, False, False, 3)
-		self.page2.pack_start(btn5, False, False, 3)
-		self.page2.pack_start(btn6, False, False, 3)
+		for i in range(0,7):
+			self.page2.pack_start(self.b[i], False, False, 3)
 
 		self.page3 = gtk.VBox(False, 5)
-		self.page3.pack_start(gstr0, False, False, 3)
-		self.page3.pack_start(gstr1, False, False, 3)
-		self.page3.pack_start(gstr2, False, False, 3)
-		self.page3.pack_start(gstr3, False, False, 3)
-		self.page3.pack_start(gstr4, False, False, 3)
-		self.page3.pack_start(gstr5, False, False, 3)
-		self.page3.pack_start(gstr6, False, False, 3)
-		self.page3.pack_start(gstr7, False, False, 3)
-		self.page3.pack_start(gstr8, False, False, 3)
+		for i in range(0,11):
+			self.page3.pack_start(self.g[i], False, False, 3)
 
 		self.page4 = gtk.VBox(False, 5)
-		self.page4.pack_start(gstr0, False, False, 3)
-		self.page4.pack_start(gstrx1, False, False, 3)
-		self.page4.pack_start(gstrx2, False, False, 3)
-		self.page4.pack_start(gstrx3, False, False, 3)
-		self.page4.pack_start(gstrx4, False, False, 3)
-		self.page4.pack_start(gstrx5, False, False, 3)
+		self.page4.pack_start(self.ex_box,False,False,3)
 
 		vbox.pack_start(self.page1, False, False, 8)
 		vbox.pack_start(self.page2, False, False, 8)
 		vbox.pack_start(self.page3, False, False, 8)
 		vbox.pack_start(self.page4, False, False, 8)
 
-		vbox.pack_start(align_bottom)
+		# vbox.pack_start(align_bottom)
 		vbox.pack_end(halign, False, False, 3)
 
 		self.add(vbox)
@@ -401,35 +218,159 @@ class PinWiz(gtk.Window):
 		self.export.show()
 
 	def cfg(self,widget,data=None):
-		print(self.b_trackpad.get_active())
+		conf = open(self.ex_name.get_text(),"w+")
+		conf.write("from evdev import ecodes \nimport time\n\n")
+		conf.write("TRACKPAD_ENABLED = " + str(self.b_trackpad.get_active()) + "\n")
+
+		conf.write("LEFT_HANDED = " + str(self.b_lefthanded.get_active()) + "\n")
+		conf.write("PRESSURE_CURVE = False \n")
+		conf.write("FULL_PRESSURE = 1.0 \n")
+		conf.write("MONITOR_X = " + str(self.offset_x.get_text()) + "\n")
+		conf.write("MONITOR_Y = " + str(self.offset_y.get_text()) + "\n")
+		conf.write("MONITOR_W = " + str(self.dim_x.get_text()) + "\n")
+		conf.write("MONITOR_H = " + str(self.dim_y.get_text()) + "\n\n")
+
+		for i in range (1,7):
+			conf.write("def btn" + str(i) + "(vbtn):\n")
+			num_keys = 0
+			key = [0,1,2]
+			for j in range(1,4):
+				key[j-1] = self.btn[i][j].get_active_text()
+				if key[j-1] != '':
+					conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_" + key[j-1] + ", 1)\n")
+					num_keys += 1
+			for j in range(1,4):
+				if key[j-1] != '':
+					conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_" + key[j-1] + ", 0)\n")
+			if num_keys == 0:
+				conf.write("	pass\n\n")
+			else: 
+				conf.write("	vbtn.syn()\n\n")
+
+		conf.write("def btn0(vbtn):\n")
+		conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)\n")
+		conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 0)\n")
+		conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_SPACE, 0)\n")
+		conf.write("	vbtn.syn()\n\n")
+
+		for i in range (1,11):
+			conf.write("def gst" + str(i) + "(vbtn):\n")
+			num_keys = 0
+			key = [0,1,2]
+			for j in range(1,4):
+				key[j-1] = self.gst[i][j].get_active_text()
+				if key[j-1] != '':
+					conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_" + key[j-1] + ", 1)\n")
+					num_keys += 1
+			for j in range(1,4):
+				if key[j-1] != '':
+					conf.write("	vbtn.write(ecodes.EV_KEY, ecodes.KEY_" + key[j-1] + ", 0)\n")
+			if num_keys == 0:
+				conf.write("	pass\n\n")
+			else: 
+				conf.write("	vbtn.syn()\n\n")
 
 
-def clone_widget(widget):
-	btn_mod = gtk.combo_box_new_text()
-	btn_mod.set_size_request(24,24)
-	btn_mod.append_text('')
-	btn_mod.append_text('ctrl')
-	btn_mod.append_text('alt')
-	btn_mod.append_text('shift')
-	btn_mod.set_active(0)
-	btn_key = gtk.combo_box_new_text()
-	btn_key.append_text('')
-	btn_key.append_text('e')
-	btn_key.append_text('z')
-	btn_key.append_text('{')
-	btn_key.append_text('}')
-	btn_key.append_text('up')
-	btn_key.append_text('down')
-	btn_key.append_text('left')
-	btn_key.append_text('right')
-	btn_key.append_text('+')
-	btn_key.append_text('-')
-	btn_key.set_active(0)
-	if widget == "mod":
-		return btn_mod
-	if widget == "key":
-		return btn_key
+		conf.write("def gst0(vbtn):\n")
+		conf.write("	pass\n\n")
 
+		conf.close()
+		gtk.main_quit()
+
+def clone_widget(type):
+	btn= gtk.combo_box_new_text()
+	if type == "mod":
+		btn.append_text('')
+		btn.append_text('LEFTCTRL')
+		btn.append_text('LEFTALT')
+		btn.append_text('LEFTSHIFT')
+		btn.set_active(0)
+		return btn
+	else:
+		for key in keys:
+			btn.append_text(key)
+
+		btn.set_active(0)
+		return btn
+
+keys = [
+	'',
+	'A',
+	'B',
+	'C',
+	'D',
+	'E',
+	'F',
+	'G',
+	'H',
+	'I',
+	'J',
+	'K',
+	'L',
+	'M',
+	'N',
+	'O',
+	'P',
+	'Q',
+	'R',
+	'S',
+	'T',
+	'U',
+	'V',
+	'W',
+	'Y',
+	'X',
+	'Z',
+	'SPACE',
+	'1',
+	'2',
+	'3',
+	'4',
+	'5',
+	'6',
+	'7',
+	'8',
+	'9',
+	'0',
+	'MINUS',
+	'EQUAL',
+	'TAB',
+	'LEFTBRACE',
+	'RIGHTBRACE',
+	'SEMICOLON',
+	'APOSTROPHE',
+	'GRAVE',
+	'BACKSLASH',
+	'COMMA',
+	'DOT',
+	'SLASH',
+	'LEFT',
+	'RIGHT',
+	'UP',
+	'DOWN',
+	'PAGEUP',
+	'PAGEDOWN',
+	'INSERT',
+	'BACKSPACE',
+	'ENTER',
+	'ESC',
+	'DELETE'
+]
+
+gst_list = [
+	'<< ',
+	'>> ',
+	'^^ ',
+	'vv ',
+	'<<<',
+	'>>>',
+	'^^^',
+	'vvv',
+	'<> ',
+	'>< ',
+]
 
 PinWiz()
 gtk.main()
+
+

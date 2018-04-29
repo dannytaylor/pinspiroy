@@ -1,6 +1,28 @@
 from evdev import ecodes
 import time
-# handlers for gesture actions
+
+#user tablet settings
+LEFT_HANDED      = True 	#rotate pen and track 180 if true
+TRACKPAD_ENABLED = False #since it's sort of in the way
+
+# playing with these pressure curves types
+PRESSURE_CURVE   = False # LINEAR, SOFT, HARD
+#soft = sqrt(z); hard = x^2
+#false means no additional calcs, same as LINEAR
+
+FULL_PRESSURE	 = 1.0		# force needed for full pressure, eg 0.8 pen pressure will give a full stroke
+
+# offset of monitor to draw to from top left
+# e.g. a dual monitor setup where you're drawing on the right-hand monitor X would be the width of the left monitor 
+# for a single monitor setup these are both 0
+MONITOR_X = 0
+MONITOR_Y = 0
+
+# dimensions of monitor to draw to
+MONITOR_W = 1920
+MONITOR_H = 1080
+
+
 
 def btn1(vbtn): #eyedropper
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
@@ -51,41 +73,38 @@ def btn0(vbtn):
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_SPACE, 0)
 	vbtn.syn()
 
-def gst_left(vbtn): #2 fingers gestures
+#2 fingers gestures
+def gst1(vbtn): # 2 left
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFT, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFT, 0)
 	vbtn.syn()
-def gst_right(vbtn): 
+def gst2(vbtn): # 2 right
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_RIGHT, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_RIGHT, 0)
 	vbtn.syn()
-def gst_up(vbtn):
+def gst3(vbtn): # 2 up
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_UP, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_UP, 0)
 	vbtn.syn()
-def gst_down(vbtn): 	
+def gst4(vbtn): # 2 down
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_DOWN, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_DOWN, 0)
 	vbtn.syn()
 
 #3 fingers gestures
-def gst_left3(vbtn): #rotate left
+def gst5(vbtn): #left
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTBRACE, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTBRACE, 0)
 	vbtn.syn()
-
-def gst_right3(vbtn): #rotate right
+def gst6(vbtn): #right
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_RIGHTBRACE, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_RIGHTBRACE, 0)
 	vbtn.syn()
-
-
-
-def gst_up3(vbtn): #2 fingers expand
+def gst7(vbtn): #up
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_EQUAL, 1)
@@ -93,23 +112,24 @@ def gst_up3(vbtn): #2 fingers expand
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTSHIFT, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_EQUAL, 0)
 	vbtn.syn()
-
-def gst_down3(vbtn): #2 fingers pinch
+def gst8(vbtn): #down
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_MINUS, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_LEFTCTRL, 0)
 	vbtn.write(ecodes.EV_KEY, ecodes.KEY_MINUS, 0)
 	vbtn.syn()
 
-def gst_zoomin(vbtn):
+# pinches
+def gst9(vbtn): #pinch out/zoom in
 	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_UP, 0)
 	vbtn.syn()
-
-def gst_zoomout(vbtn): 
+def gst10(vbtn): #pinch in/zoom out
 	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 1)
 	vbtn.write(ecodes.EV_KEY, ecodes.BTN_GEAR_DOWN, 0)
 	vbtn.syn()
 
-def gst_end(vbtn): #any gesture release
+
+
+def gst0(vbtn): #any gesture release
 	pass

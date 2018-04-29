@@ -18,6 +18,13 @@ dev = usb.core.find(idVendor=0x256c, idProduct=0x006e)
 endpoint1 = dev[0][(0,0)][0]
 endpoint2 = dev[0][(1,0)][0]
 
+# thanks @KaiJan57 for this code
+try:
+	usb.util.get_string(dev, 0xc8, 1033)
+	print('Graphics tablet enabled.')
+except:
+	print('')
+
 # if the OS kernel already claimed the device, which is most likely true
 # thanks to http://stackoverflow.com/questions/8218683/pyusb-cannot-set-configuration
 interface = 0
