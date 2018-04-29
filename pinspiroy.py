@@ -25,6 +25,9 @@ x_offset = PEN_MAX_X*g.MONITOR_X/float(MAX_W)
 y_scale  = g.MONITOR_H/float(MAX_H)
 y_offset = PEN_MAX_Y*g.MONITOR_Y/float(MAX_H)
 
+STYLUS_COUNT = 0
+STYLUS_DELAY = 12
+
 msc = 1
 #specify capabilities for a virtual device
 #one for each device:
@@ -33,7 +36,7 @@ msc = 1
 
 #pressure sensitive pen tablet area with 2 stylus buttons and no eraser
 cap_pen = {
-	ecodes.EV_KEY: [ecodes.BTN_TOUCH, ecodes.BTN_TOOL_PEN],
+	ecodes.EV_KEY: [ecodes.BTN_TOUCH, ecodes.BTN_TOOL_PEN, ecodes.BTN_STYLUS, ecodes.BTN_STYLUS2],
 	ecodes.EV_ABS: [
 		(ecodes.ABS_X, AbsInfo(0,0,PEN_MAX_X,0,0,5080)), #value, min, max, fuzz, flat, resolution
 		(ecodes.ABS_Y, AbsInfo(0,0,PEN_MAX_Y,0,0,5080)),
@@ -127,22 +130,29 @@ def id_pen(data):
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_Y, y)
 	vpen.write(ecodes.EV_ABS, ecodes.ABS_PRESSURE, z)
 
+	global STYLUS_COUNT, STYLUS_DELAY
+
+
 	if data[1] == 128: # pen registered, but not touching pad
+		# reset STYLUS2 delay timer
+		STYLUS_COUNT = 0
+		
+		# stylus buttons released
+		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS, 0)
+		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS2, 0)
+
 		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
-	elif data[1] == 130: # stylus button 1
-		if z>10:
-			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
-		else:
-			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
-		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS, 1)
-	elif data[1] == 132: # stylus button 2
-		if z>10:
-			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
-		else:
-			vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 0)
-		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS2, 1)
 	elif data[1] == 129: # == 129; pen touching pad
 		vpen.write(ecodes.EV_KEY, ecodes.BTN_TOUCH, 1)
+	elif data[1] == 130: # stylus button 1
+		
+		vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS, 1)
+	elif data[1] == 132: # stylus button 2
+		# touching the pad with STYLUS1 pressed sends a STYLUS2 signal for a brief moment
+		# to prevent accidental STYLUS2 clicks I've added a brief delay on this click
+		STYLUS_COUNT += 1
+		if STYLUS_COUNT > STYLUS_DELAY:
+			vpen.write(ecodes.EV_KEY, ecodes.BTN_STYLUS2, 1)
 
 	vpen.write(ecodes.EV_KEY, ecodes.BTN_TOOL_PEN, 1)
 
@@ -266,7 +276,7 @@ if dev.is_kernel_driver_active(interface) is True:
 	usb.util.claim_interface(dev, interface)
 	print('interface 1 grabbed')
 
-print('pinspiroy driver should be running!')
+print('pinspiroy should be running!')
 while True:
 	try:
 		# data received as array of [0,255] ints

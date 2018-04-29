@@ -1,4 +1,4 @@
-### Pen tablet functionality seems to be broken after a system update on Archlinux. Driver still works on Ubuntu 16.04. Seems to be an issue with the newer Linux kernel and how uinput interprets BTN\_TOOL\_PEN. Downgrading the kernel doesn't seem to fix the issue, may have to recompile the uinput module from an older kernel (<4.11) manually.
+### Pen tablet functionality seems to be broken after a system update on Archlinux. Driver still works on Ubuntu 16.04, but not subsequent versions. Seems to be an issue with the newer Linux kernel and how uinput interprets BTN\_TOOL\_PEN.
 
 # pinspiroy
 
@@ -24,9 +24,9 @@ For multimonitor setups you will need to update the config file for monitor size
 
 Button and gesture bindings are found in bindings.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
 
-## Configuring
+## Bindings
 
-I have the button and gesture bindings set up with the following for defaults
+I have the button and gesture bindings set up with the following for defaults. These are set up to work best with Krita, so you may need to change them depending on your art program.
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/buttons.png)
 
@@ -71,12 +71,16 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 
+## Thanks and Additional Reading
+- Thanks to @KaiJan57 for the magic code to get around the Windows VM requirement
+- Thanks to @DevinPentecost for general python help
+- event codes for uinput use can be found [here](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
+- [more event code information found here](https://www.kernel.org/doc/Documentation/input/event-codes.txt)
+- [useful tutorial for writing a USB driver with PyUSB](https://www.linuxvoice.com/drive-it-yourself-usb-car-6/)
+
+
 ## TODO:
-- ~~Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed~~ thanks to @KaiJan57 for the magic fix
-- ~~Add support for tablet in impaired mode~~ no longer needed
-- Get stylus buttons working
-- Load config file for program-specific bindings
-- Add a config GUI
-- ~~add configuration for multiple monitors and irregular resolutions~~
+- Load a config file for program-specific bindings
+- Add a GUI for configuring settings
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)

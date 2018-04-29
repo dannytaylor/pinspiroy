@@ -10,7 +10,7 @@ PRESSURE_CURVE   = False # LINEAR, SOFT, HARD
 FULL_PRESSURE	 = 1.0		# force needed for full pressure, eg 0.8 pen pressure will give a full stroke
 
 # dimensions of monitor to draw to
-MONITOR_W = 1980
+MONITOR_W = 1920
 MONITOR_H = 1080
 
 # offset of monitor to draw to from top left
