@@ -13,20 +13,19 @@ All features of the tablet (except stylus side buttons) are working with this, b
 - some things that should be already installed (libusb1.0, uinput) 
 
 ## Usage
-_$ sudo python pinspiroy.py_
+_$ sudo python pinspiroy.py [usersettings.py]_
 
-Configuration values are found in config.py. It has settings for rotating axes for left-handed use and disabling the trackpad (I find it gets in the way). The pad buttons are setup to change positions when rotated also.
-Added options for simple pressure curves and pressure needed for a full stroke. Defaults are linear pressure and 100% force for full pressure. I'd recommend using your art programs pressure adjustments instead of these options if you can.
+If no settings file is given it will load the *default.py* file. Custom settings files must be in the repo folder with a .py extension.
 
-For multimonitor setups you will need to update the config file for monitor size and offset of the target screen. Example monitor setup shown below where the tablet is drawing to the monitor on the right. The trackpad controls the same monitor set here.
 
-![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/monitors.png)
+## Configuration
+Custom configuration can be done via the *pinwiz.py* tool provided. It will export a configuration file to the working folder which can be passed to the pinspiroy script when run. The pinwiz tool very simple with no error checking for invalid settings, so be careful with your inputs and debug the exported file with a text editor if needed.
 
-Button and gesture bindings are found in bindings.py. Note: If you're adding new keys to your bindings you will have to add them to the virtual button pad capabilities: see 'cap_btn' in pinspiroy.py
+Default configuration values are found in default.py. It has settings for rotating axes for left-handed use and disabling the trackpad (I find it gets in the way). The pad buttons and gestures are setup to change bindings when rotated also.
 
-## Bindings
+Simple pressure curves and thresholds can be set, however I'd recommend using your art programs pressure adjustments instead of these options.
 
-I have the button and gesture bindings set up with the following for defaults. These are set up to work best with Krita, so you may need to change them depending on your art program.
+The default bindings set up with the following for defaults. These are set up to work best with Krita, so you may need to change them depending on your art program.
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/buttons.png)
 
@@ -58,6 +57,9 @@ Pinch in/out:       unbound
 
 ```
 
+For multimonitor setups you will need to enter the **screen** offset from the top left to the top left corner of the target **display** as well as the dimensions of the target display. For single monitor setups the offsets are both zero. My monitor setup is shown below as an example
+
+![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/monitors.png)
 
 ## Troubleshooting
 This program requires the uinput module to be loaded. Either manually (_sudo modprobe uinput_)
@@ -78,9 +80,5 @@ Still working out some of the problems, but feel free to tweet @ me or open an i
 - [more event code information found here](https://www.kernel.org/doc/Documentation/input/event-codes.txt)
 - [useful tutorial for writing a USB driver with PyUSB](https://www.linuxvoice.com/drive-it-yourself-usb-car-6/)
 
-
-## TODO:
-- Load a config file for program-specific bindings
-- Add a GUI for configuring settings
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)
