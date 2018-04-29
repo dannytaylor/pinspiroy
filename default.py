@@ -2,8 +2,8 @@ from evdev import ecodes
 import time
 
 #user tablet settings
-LEFT_HANDED      = True 	#rotate pen and track 180 if true
-TRACKPAD_ENABLED = False #since it's sort of in the way
+LEFT_HANDED      = False 	#rotate pen and track 180 if true
+TRACKPAD_ENABLED = True 	#since it's sort of in the way
 
 # playing with these pressure curves types
 PRESSURE_CURVE   = False # LINEAR, SOFT, HARD
