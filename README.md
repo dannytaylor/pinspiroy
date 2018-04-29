@@ -15,12 +15,10 @@ All features of the tablet (except stylus side buttons) are working with this, b
 ## Usage
 _$ sudo python pinspiroy.py_
 
-You may need to first connect the device to a Windows VM to flip the tablet into full-functioning mode. This mode should persist on reboot and without the VM, but will not persist on reconnecting the USB dongle.
-
 Configuration values are found in config.py. It has settings for rotating axes for left-handed use and disabling the trackpad (I find it gets in the way). The pad buttons are setup to change positions when rotated also.
 Added options for simple pressure curves and pressure needed for a full stroke. Defaults are linear pressure and 100% force for full pressure. I'd recommend using your art programs pressure adjustments instead of these options if you can.
 
-For multimonitor settings you will need to update the config file for monitor size and offset of the target screen. Example monitor setup shown below.
+For multimonitor setups you will need to update the config file for monitor size and offset of the target screen. Example monitor setup shown below where the tablet is drawing to the monitor on the right. The trackpad controls the same monitor set here.
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/monitors.png)
 
@@ -74,10 +72,11 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 
 ## TODO:
-- Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed
-- Add support for tablet in impaired mode
+- ~~Figure out USB data to send to the tablet to flip it to full functioning mode so Windows VM not needed~~ thanks to @KaiJan57 for the magic fix
+- ~~Add support for tablet in impaired mode~~ no longer needed
 - Get stylus buttons working
-- load config by argument for program specific bindings
-- add configuration for multiple monitors and irregular resolutions
+- Load config file for program-specific bindings
+- Add a config GUI
+- ~~add configuration for multiple monitors and irregular resolutions~~
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)
