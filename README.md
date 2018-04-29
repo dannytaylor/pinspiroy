@@ -72,9 +72,9 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 
 ## Thanks and Additional Reading
-- Thanks to @KaiJan57 for the magic code to get around the Windows VM requirement
-- Thanks to @DevinPentecost for general python help
-- event codes for uinput use can be found [here](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
+- Thanks to [@KaiJan57](https://github.com/KaiJan57) for the magic code to get around the Windows VM requirement
+- Thanks to [@DevinPentecost](https://github.com/DevinPentecost) for general python help
+- [event codes for uinput use can be found here](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
 - [more event code information found here](https://www.kernel.org/doc/Documentation/input/event-codes.txt)
 - [useful tutorial for writing a USB driver with PyUSB](https://www.linuxvoice.com/drive-it-yourself-usb-car-6/)
 
