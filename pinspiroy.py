@@ -249,6 +249,13 @@ gst_switch_LH = {
 dev = usb.core.find(idVendor=0x256c, idProduct=0x006e)
 interface = 0
 endpoint = dev[0][(0,0)][0]
+
+try:
+	usb.util.get_string(dev, 0xc8, 1033)
+	print('Graphics tablet enabled.')
+except:
+	print('')
+
 if dev.is_kernel_driver_active(interface) is True:
 	dev.detach_kernel_driver(interface)
 	usb.util.claim_interface(dev, interface)
