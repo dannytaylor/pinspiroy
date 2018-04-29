@@ -4,32 +4,39 @@
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
 
-All features of the tablet (except stylus side buttons) are working with this, but it isn't an ideal fix. Also I'm not too familiar with python so this might be implemented poorly. Hopefully this could be helpful for someone smarter than me to make a proper driver. If it this is helpful (or not working) for you I'd love to know! [@xhiggy](https://twitter.com/xhiggy)
+All features of the tablet should be working with this. I'm not too familiar with python so this is likely a non-optimal implementation. Feel free to open an issue or tweet at me if you run into any problems. [@xhiggy](https://twitter.com/xhiggy)
 
 ## Requirements
 - [pyusb](https://walac.github.io/pyusb/) (pip install pyusb)
 - [python-evdev](https://github.com/gvalkov/python-evdev) (pip install evdev)
-- pygtk for screen size detection (pip install pygtk)
-- some things that should be already installed (libusb1.0, uinput) 
+- [pygtk]() for screen size detection and pinwiz tool (pip install pygtk)
 
 ## Usage
-_$ sudo python pinspiroy.py [usersettings.py]_
 
-If no settings file is given it will load the *default.py* file. Custom settings files must be in the repo folder with a .py extension.
+```
+$ sudo python pinspiroy.py [usersettings.py]
+```
+
+If no settings file is given it will load the *default.py* file. Custom settings files must be in the repo folder with a .py extension. Superuser privileges are required to read USB traffic.
 
 
 ## Configuration
-Custom configuration can be done via the *pinwiz.py* tool provided. It will export a configuration file to the working folder which can be passed to the pinspiroy script when run. The pinwiz tool very simple with no error checking for invalid settings, so be careful with your inputs and debug the exported file with a text editor if needed.
+Custom configuration can be done via the *pinwiz.py* tool provided. 
+```
+$ python pinwiz.py
+```
+It will export a configuration file to the working folder which can be passed to the pinspiroy script when run. The pinwiz tool is very simple with no error checking for invalid settings, so be careful with your inputs and debug the exported file with a text editor if needed.
 
-Default configuration values are found in default.py. It has settings for rotating axes for left-handed use and disabling the trackpad (I find it gets in the way). The pad buttons and gestures are setup to change bindings when rotated also.
+Default configuration values are found in default.py. It has settings for rotating axes for left-handed use and disabling the trackpad (I find it gets in the way). Disabling the trackpad does not disable the gesture bindings except for the 'taps'. The pad buttons and gestures are setup to change bindings when rotated also.
 
-Simple pressure curves and thresholds can be set, however I'd recommend using your art programs pressure adjustments instead of these options.
+Simple pressure curves and thresholds can be set in settings file (see default.py for comments), however I'd recommend using your art programs pressure adjustments instead of these options.
 
-The default bindings set up with the following for defaults. These are set up to work best with Krita, so you may need to change them depending on your art program.
+The default bindings are set up with the following for defaults. I've set these to best with Krita for my workflow, so you may need to change them depending on your art program and preferences.
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/buttons.png)
 
 Buttons clockwise from top left of trackpad:
+
 ```
 button1: left control (hold)	# eyedropper
 button2: E			# eraser tool
@@ -38,6 +45,7 @@ button4: shift (hold)		# brush resizer
 button5: ctrl + shift + z	# redo
 button6: ctrl + z		# undo
 ```
+
 
 Trackpad gestures:
 ```
@@ -71,14 +79,17 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 
 **Key error: NUM:** Run the debug.py file to see the array data the tablet is sending. The first array value should be 8. If it isn't (probably will be 10) the tablet isn't in full tablet mode. See usage section.
 
+**Modules not found:** Make sure you're installing the modules with the same version of python you're running the script with.
+
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 
 ## Thanks and Additional Reading
-- Thanks to [@KaiJan57](https://github.com/KaiJan57) for the magic code to get around the Windows VM requirement
-- Thanks to [@DevinPentecost](https://github.com/DevinPentecost) for general python help
+- Thanks [@KaiJan57](https://github.com/KaiJan57) for the magic code to get around the Windows VM requirement
+- Thanks [@DevinPentecost](https://github.com/DevinPentecost) for general python help
 - [event codes for uinput use can be found here](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
 - [more event code information found here](https://www.kernel.org/doc/Documentation/input/event-codes.txt)
 - [useful tutorial for writing a USB driver with PyUSB](https://www.linuxvoice.com/drive-it-yourself-usb-car-6/)
+- [writing a uinput tablet driver in C](http://gerev.github.io/laptop-cintiq/)
 
 
 ![](https://github.com/dannytaylor/pinspiroy/blob/master/docs/spin2.gif)
