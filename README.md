@@ -7,9 +7,10 @@ pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www
 All features of the tablet should be working with this. I'm not too familiar with python so this is likely a non-optimal implementation. Feel free to open an issue or tweet at me if you run into any problems. [@xhiggy](https://twitter.com/xhiggy)
 
 ## Requirements
+- python2.7
 - [pyusb](https://walac.github.io/pyusb/) (pip install pyusb)
 - [python-evdev](https://github.com/gvalkov/python-evdev) (pip install evdev)
-- [pygtk]() for screen size detection and pinwiz tool (pip install pygtk)
+- [pygtk]() for screen size detection and pinwiz tool (available in via most package managers)
 
 ## Usage
 
