@@ -1,5 +1,3 @@
-### Pen tablet functionality seems to be broken after a system update on Archlinux. Driver still works on Ubuntu 16.04, but not subsequent versions. Seems to be an issue with the newer Linux kernel and how uinput interprets BTN\_TOOL\_PEN.
-
 # pinspiroy
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
@@ -11,6 +9,15 @@ All features of the tablet should be working with this. I'm not too familiar wit
 - [pyusb](https://walac.github.io/pyusb/) (pip install pyusb)
 - [python-evdev](https://github.com/gvalkov/python-evdev) (pip install evdev)
 - [pygtk]() for screen size detection and pinwiz tool (available in via most package managers)
+
+For distros newer than Ubuntu 16.04 you will have to append the following to your `/etc/udev/hwdb.d/61-evdev-local.hwdb` file (create the file if it does not already exist).
+```
+evdev:name:pinspiroy-pen*
+ EVDEV_ABS_00=::5080
+ EVDEV_ABS_01=::5080
+```
+Then run `#sudo systemd-hwdb update` to apply the changes. (thanks to [KaiJan57 for figuring this out](sudo systemd-hwdb update)).
+
 
 ## Usage
 
@@ -85,7 +92,7 @@ or automatically on boot; [see the Arch wiki](https://wiki.archlinux.org/index.p
 Still working out some of the problems, but feel free to tweet @ me or open an issue.
 
 ## Thanks and Additional Reading
-- Thanks [@KaiJan57](https://github.com/KaiJan57) for the magic code to get around the Windows VM requirement
+- Thanks [@KaiJan57](https://github.com/KaiJan57) for the magic code to get around the Windows VM requirement and also the hwdb.d fix for recent distros.
 - Thanks [@DevinPentecost](https://github.com/DevinPentecost) for general python help
 - [event codes for uinput use can be found here](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
 - [more event code information found here](https://www.kernel.org/doc/Documentation/input/event-codes.txt)
