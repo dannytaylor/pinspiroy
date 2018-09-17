@@ -16,7 +16,7 @@ evdev:name:pinspiroy-pen*
  EVDEV_ABS_00=::5080
  EVDEV_ABS_01=::5080
 ```
-Then run `#sudo systemd-hwdb update` to apply the changes. (thanks to [KaiJan57 for figuring this out](sudo systemd-hwdb update)).
+Then run `#sudo systemd-hwdb update` to apply the changes. (thanks to [KaiJan57 for figuring this out](https://github.com/dannytaylor/pinspiroy/issues/6)).
 
 
 ## Usage
