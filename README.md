@@ -1,3 +1,7 @@
+# UPDATE, READ FIRST:
+
+**I believe this tablet is supported as of version 9 of the [DIGImend driver](https://github.com/DIGImend/digimend-kernel-drivers) so ths project is no longer required as a work around.**
+
 # pinspiroy
 
 pinspiroy is a linux driver workaround for the [Huion Inspiroy G10T](https://www.huiontablet.com/g10t.html). Note that this is not kernel-level driver, it is a user land implementation that creates virtual devices with uinput to mimic the tablet functionality.
